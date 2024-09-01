@@ -11,26 +11,26 @@ namespace groupLabel
 {
     namespace prefix
     {
-        const char* dist = "~ Группа дистанции: ";
-        const char* name = "~ Группа имен: ";
-        const char* type = "~ Группа типов: ";
-        const char* time = "~ Группа времени создания: ";
+        const char* dist = "~ Group distance: ";
+        const char* name = "~ Group name: ";
+        const char* type = "~ Group type: ";
+        const char* time = "~ Group creation time: ";
     }
     namespace name
     {
-        const char* distClose = "От 0 до 30";
-        const char* distMid = "От 30 до 60";
-        const char* distFar = "От 60 до 100";
-        const char* distVeryFar = "От 100";
+        const char* distClose = "1) From 0 to 30";
+        const char* distMid = "2) From 30 to 60";
+        const char* distFar = "3) From 60 to 100";
+        const char* distVeryFar = "4) From 100";
 
         const char* nameOther = "#";
 
-        const char* typeMisc = "Разное";
+        const char* typeMisc = "Misc";
 
-        const char* timeMonth = "До месяца";
-        const char* timeHalfYear = "От 1 до 6 месяцев";
-        const char* timeYear = "От 6 до 12 месяцев";
-        const char* timeOld = "От года";
+        const char* timeMonth = "1) <1 month";
+        const char* timeHalfYear = "2) From 1 to 6 months";
+        const char* timeYear = "3) From 6 to 12 months";
+        const char* timeOld = "4) >12 months";
     }
 }
 
@@ -76,6 +76,10 @@ bool ObjectsList::readFile(const std::string& fileName)
     {
         return false;
     }
+
+    m_Objects.clear();
+    m_GroupedObjects.clear();
+    m_CurrentSortState = NOSORT;
 
     std::string line;
     while (std::getline(file, line))
