@@ -26,11 +26,11 @@ class ObjectsList {
 public:
     ObjectsList() = default;
     ObjectsList(const std::string& fileName);
-    void readFile(const std::string& fileName);
+    bool readFile(const std::string& fileName);
     void addObject();
     void addObject(const Object& obj);
     void groupAndSort(const SORTSTATE sortChoice);
-    void saveFile(const std::string& fileName) const;
+    bool saveFile(const std::string& fileName) const;
 
 private:
     void groupAndSortByDistance();

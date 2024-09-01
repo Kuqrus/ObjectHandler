@@ -67,15 +67,14 @@ ObjectsList::ObjectsList(const std::string& fileName) : m_FileName(fileName)
 	readFile(m_FileName);
 }
 
-void ObjectsList::readFile(const std::string& fileName)
+bool ObjectsList::readFile(const std::string& fileName)
 {
     std::ifstream file;
 
     file.open(fileName);
     if (!file.is_open())
     {
-        std::cout << "Error! File hasnt opened!\n";
-        return;
+        return false;
     }
 
     std::string line;
@@ -87,6 +86,7 @@ void ObjectsList::readFile(const std::string& fileName)
         m_Objects.push_back(getObjectFromString(tempStream));
     }
     file.close();
+    return true;
 }
 
 void ObjectsList::addObject()
@@ -94,20 +94,17 @@ void ObjectsList::addObject()
     Object newObj;
     std::cout << "Enter object's name (without spaces): ";
     std::cin >> newObj.m_Name;
-    std::cout << std::endl;
     std::cout << "Enter object's X coordinate: ";
     std::cin >> newObj.m_CoordX;
-    std::cout << std::endl;
     std::cout << "Enter object's Y coordinate: ";
     std::cin >> newObj.m_CoordY;
-    std::cout << std::endl;
     std::cout << "Enter object's type: ";
     std::cin >> newObj.m_Type;
-    std::cout << std::endl;
     std::cout << "Enter object's create time (in UNIX format): ";
     std::cin >> newObj.m_Time;
-    std::cout << std::endl;
     m_Objects.push_back(newObj);
+    if (m_CurrentSortState != NOSORT)
+        groupAndSort(m_CurrentSortState);
     system("cls");
 }
 
@@ -142,14 +139,13 @@ void ObjectsList::groupAndSort(const SORTSTATE sortChoice)
     m_CurrentSortState = sortChoice;
 }
 
-void ObjectsList::saveFile(const std::string& fileName) const
+bool ObjectsList::saveFile(const std::string& fileName) const
 {
     std::ofstream outFile;
     outFile.open(fileName);
     if (!outFile.is_open())
     {
-        std::cout << "Error!\n";
-        return;
+        return false;
     }
 
     if (m_CurrentSortState == NOSORT)
@@ -191,6 +187,7 @@ void ObjectsList::saveFile(const std::string& fileName) const
     }
 
     outFile.close();
+    return true;
 }
 
 void ObjectsList::groupAndSortByDistance()
