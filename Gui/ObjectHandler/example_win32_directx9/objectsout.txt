@@ -1,0 +1,26 @@
+~ Group distance: 1) From 0 to 30
+Shop 0.163 2.119 Building 1693000123
+0ak 34.56 23.45 Tree 1693034567
+~ Group distance: 2) From 30 to 60
+Serg 42.89 10.56 Person 1713635472
+House 45.67 12.89 Building 1693312345
+Valerie -15.44 28.76 Person 1693240000
+BMW 34.56 89.12 Car 1693221234
+Lada 12.34 67.89 Car 1699475024
+Pinetree -45.67 12.89 Tree 1719698761
+~ Group distance: 3) From 60 to 100
+Mary -12.14 49.78 Person 1723692796
+Ivan 23.45 87.12 Person 1693235249
+Water -63.43 1.11 ... 1611020134
+Alex 56.22 -23.11 Person 1723841878
+Aspen 45.12 -34.56 Tree 1714859657
+Library 34.23 -54.78 Building 1693112345
+Birch -23.45 67.89 Tree 1719538847
+Audi 85.44 -12.22 Car 1693321212
+~ Group distance: 4) From 100
+School -23.56 76.45 Building 1693209876
+Pen -12.45 97.0 ... 1722809364
+Toyota -35.12 76.98 Car 1723665657
+Anna -34.67 89.01 Person 1693245348
+Kia -90.00 45.67 Car 1692998765
+??? -99.99 99.99 ... 0

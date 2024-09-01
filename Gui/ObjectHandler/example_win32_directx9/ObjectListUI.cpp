@@ -1,5 +1,7 @@
 #include "ObjectListUI.h"
 
+const int daysInMonth[] = { 31, 28, 30, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 void DoDockSpace()
 {
     // READ THIS !!!
@@ -220,7 +222,7 @@ void Menu::RenderUI(ObjectsList& objList)
     if (ImGui::BeginPopupModal("Adding Object", NULL, ImGuiWindowFlags_MenuBar))
     {
         AddObjectMenu::RenderUI(objList);
-        ImGui::EndPopup();
+        //ImGui::EndPopup();
     }
 
     ImGui::End();
@@ -228,41 +230,57 @@ void Menu::RenderUI(ObjectsList& objList)
 
 void AddObjectMenu::RenderUI(ObjectsList& objList)
 {
-    static char objectName[128] = "";
-    ImGui::InputText("Object Name", objectName, IM_ARRAYSIZE(objectName));
+    static char objectName[128] = "";    
+    ImGui::Text("Object name");
+    ImGui::InputText(" ", objectName, IM_ARRAYSIZE(objectName));
 
-    static float objectCoords[2] = { 0.f, 0.f };
-    ImGui::InputFloat2("Coordinates (X/Y)", objectCoords);
+    static float x = 0.0f, y = 0.0f;
+    ImGui::Text("Coordiantes");
+    ImGui::PushItemWidth(80);
+    ImGui::InputFloat("X", &x); ImGui::SameLine();
+    ImGui::InputFloat("Y", &y);
+    ImGui::PopItemWidth();
 
     const char* objectCategory[] = { "...", "Building", "Car", "Person" };
     static int selectedCategory = 0;
     ImGui::Combo("Category", &selectedCategory, objectCategory, IM_ARRAYSIZE(objectCategory));
 
+    ImGui::Text("Creation time");
+    static int day = 1, mon = 1, year = 1970;
+    ImGui::PushItemWidth(80);
+    ImGui::DragInt("Day", &day, 1, 1, 31); ImGui::SameLine();
+    ImGui::DragInt("Month", &mon, 1, 1, 12); ImGui::SameLine();
+    ImGui::DragInt("Year", &year, 1, 0, 9999);
+    ImGui::PopItemWidth();
 
-    static int objectDate[3] = { 0, 0, 0 };
-    ImGui::InputInt3("Creation date (DD/MM/YYYY)", objectDate);
-    
-    static int objectTime[3] = { 0, 0, 0 };
-    ImGui::InputInt3("Creation time (HH/MM/SS)", objectTime);
+    static int hour = 0, min = 0, sec = 0;
+    ImGui::PushItemWidth(80);
+    ImGui::DragInt("Hour", &hour, 1, 0, 23); ImGui::SameLine();
+    ImGui::DragInt("Min", &min, 1, 0, 59); ImGui::SameLine();
+    ImGui::DragInt("Sec", &sec, 1, 0, 59);
+    ImGui::PopItemWidth();
 
-    if (ImGui::Button("Add"))
+    ImGui::Separator();
+        
+    if (ImGui::Button("Add", ImVec2(100.0f, 0.0f)))
     {
-        uint32_t newTimeInUNIX = objectTime[2] + objectTime[1] * 60 + objectTime[0] * 3600;
-        uint32_t newDateInUNIX = objectDate[2] * 86400 + objectDate[1] * 86400 * 30 + objectDate[0] * 31536000;
-        uint32_t newUNIX = newTimeInUNIX + newDateInUNIX;
+        uint32_t newTimeInUNIX = sec + min * 60 + hour * 3600;
+        uint32_t newDateInUNIX = day * 86400 + daysInMonth[mon] * 86400 + year * 31536000;
         std::string currCat(objectCategory[selectedCategory]);
 
         std::stringstream ss;
         ss << objectName << ' ';
-        ss << objectCoords[0] << ' ' << objectCoords[1] << ' ';
+        ss << x << ' ' << y << ' ';
         ss << currCat + ' ';
-        ss << std::to_string(newUNIX);
+        ss << std::to_string(newTimeInUNIX + newDateInUNIX);
 
         objList.addObject(objList.getObjectFromString(ss));
         ImGui::CloseCurrentPopup();
     } 
-    if (ImGui::Button("Close"))
+    ImGui::SameLine();
+    if (ImGui::Button("Close", ImVec2(100.0f, 0.0f)))
     {
         ImGui::CloseCurrentPopup();
     }
+    ImGui::EndPopup();
 }
